@@ -22,7 +22,8 @@ test("on Start Button click expects game play screen to render", ()=>{
   // Then I am taken to the gameplay screen
   render(<App />);
   const playerNameFields = screen.getAllByRole("textbox");
-  playerNameFields[0].innerText = "Name1";
+  playerNameFields[0].innerText = "Luke";
+  playerNameFields[1].innerText = "Josh";
   const startButton = screen.getByText(/Start Game/i);
   startButton.click();
 

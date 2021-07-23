@@ -35,7 +35,11 @@ const useStyles = makeStyles((theme:Theme)=>({
 
 }))
 
-function AddPlayerScreen(){
+interface StartPageInterface {
+    startButtonClick: ()=>void;
+}
+
+const StartPage : React.FC<StartPageInterface> = (props:StartPageInterface) => {
     const styles = useStyles();
     return (<div className={"App-header"}>
         <TextField
@@ -63,11 +67,11 @@ function AddPlayerScreen(){
         <TextField variant="outlined"
                    InputProps={{className:styles.input}} className={styles.playerNameField} />
 
-        <Button className={styles.startButton} >Start Game</Button>
+        <Button className={styles.startButton} onClick={()=>props.startButtonClick()}>Start Game</Button>
 
     </div>)
 
 
 }
 
-export default AddPlayerScreen
+export default StartPage

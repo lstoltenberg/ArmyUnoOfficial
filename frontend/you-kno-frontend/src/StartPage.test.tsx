@@ -16,7 +16,7 @@ test("renders ten player name fields", () => {
 });
 
 test("on Start Button click expects game play screen to render", ()=>{
-  //
+  //--from the tracker:
   // When I enter a name
   // And click "Start Game"
   // Then I am taken to the gameplay screen
@@ -25,12 +25,7 @@ test("on Start Button click expects game play screen to render", ()=>{
   playerNameFields[0].innerText = "Name1";
   const startButton = screen.getByText(/Start Game/i);
   startButton.click();
-  // const gamePlayAlert = screen.getByText("Gameplay Screen")
-  // const spy = jest.spyOn(Alert, 'alert').mockImplementation(()=>{});
-   // expect(spy).toBeCalledTimes(1);
-  //expect(gamePlayAlert).toBeInTheDocument();
 
-  global.alert = jest.fn();
-
-  expect(global.alert).toHaveBeenCalled();
+  const gamePlayScreenText = screen.getByText("Game Screen");
+  expect(gamePlayScreenText).toBeVisible();
 })

@@ -1,6 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
+import userEvent from '@testing-library/user-event'
+import StartPage from "./StartPage";
+import { Route, Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 
 test("renders start button", () => {
@@ -15,18 +19,20 @@ test("renders ten player name fields", () => {
   expect(playerNameFields.length).toEqual(10);
 });
 
-test("on Start Button click expects game play screen to render", ()=>{
-  //--from the tracker:
-  // When I enter a name
-  // And click "Start Game"
-  // Then I am taken to the gameplay screen
-  render(<App />);
+test("navigates to /game when you click start game with minimum players", () => {
+  const history = createMemoryHistory();
+
+  render(
+    <Router history = {history}>
+      <StartPage />
+    </Router>
+  );
+
   const playerNameFields = screen.getAllByRole("textbox");
-  playerNameFields[0].innerText = "Luke";
-  playerNameFields[1].innerText = "Josh";
+  userEvent.type(playerNameFields[0], "Luke");
+  userEvent.type(playerNameFields[1], "Josh");
   const startButton = screen.getByText(/Start Game/i);
   startButton.click();
 
-  const gamePlayScreenText = screen.getByText("Game Screen");
-  expect(gamePlayScreenText).toBeVisible();
-})
+  expect(history.location.pathname).toBe("/game");
+});

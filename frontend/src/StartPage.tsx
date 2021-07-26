@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     color: "#F0F0F0",
     marginTop: "24px", //40-16
+    '&:hover':{
+        backgroundColor: "#1A4480"
+    },
   },
 
   input: {

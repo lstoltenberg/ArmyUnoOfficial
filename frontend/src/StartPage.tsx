@@ -6,7 +6,7 @@ import { Redirect, useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme: Theme) => ({
   startButton: {
     textAlign: "center",
-    backgroundColor: "#A9AEB1",
+    backgroundColor: "#005EA2",
     width: "490px",
     height: "112px",
     borderRadius: "10px",
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     lineHeight: "47px",
     display: "flex",
     alignItems: "center",
-    color: "#000000",
+    color: "#F0F0F0",
     marginTop: "24px", //40-16
   },
 
@@ -25,16 +25,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   playerNameField: {
-    // width: "237px",
-    //  height: "24px",
     background: "#E6E6E6",
     marginBottom: "16px",
-    // margin: theme.spacing(1),
-    // padding: "0",
+    border: "1px solid #000000",
   },
 
   addPlayerBackground: {
-    backgroundColor: "#C4C4C4",
+    backgroundColor: "#DCDEE0",
     width: "934px",
     height: "720px",
     margin: "28px auto 0px auto",
@@ -43,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: "8px",
   },
 
   header: {
@@ -63,20 +61,13 @@ const StartPage: React.FC = () => {
   const history = useHistory();
 
   const handleStartButtonClick = () => {
-    //console.log("start button click")
-    //console.log(playerNames)
-    //check that two names exist
-
-
     let count = 0;
     playerNames.forEach((key, value) => {
-      //console.log("foreach"+" "+key+" "+value+" "+count)
       if (value != "") {
         count++;
       }
     });
 
-    //then do the startbuttonclick function
     if (count > 1) {
       history.push("/game");
     }
@@ -88,7 +79,6 @@ const StartPage: React.FC = () => {
       <TextField
         name="player1"
         onChange={(event) => handlePlayerNameInput(event)}
-        //value={props.playerNames.get("player1)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
@@ -102,48 +92,56 @@ const StartPage: React.FC = () => {
       />
       <TextField
         name="player3"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player4"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player5"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player6"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player7"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player8"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player9"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
       <TextField
         name="player10"
+        onChange={(event) => handlePlayerNameInput(event)}
         variant="outlined"
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}

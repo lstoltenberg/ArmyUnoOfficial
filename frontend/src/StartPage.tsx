@@ -2,6 +2,13 @@ import React from "react";
 import {Button, Link, makeStyles, TextField, Theme} from "@material-ui/core";
 import { inspect } from "util";
 import { Redirect, useHistory } from "react-router-dom";
+import StartPageErrorDialog from "./StartPageErrorDialog";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import {TransitionProps} from "@material-ui/core/transitions";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles((theme: Theme) => ({
   startButton: {
@@ -55,10 +62,62 @@ const useStyles = makeStyles((theme: Theme) => ({
 const StartPage: React.FC = () => {
   const styles = useStyles();
   const playerNames: Map<String, String> = new Map<String, String>();
+  const [playerList, setPlayerList] = React.useState([] as string[]);
+  const [open, setOpen] = React.useState(false);
+  //const [playerNames, setPlayerNameValue] = React.useState(new Map<String, String>());
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
   function handlePlayerNameInput(event: any) {
-    playerNames.set(event.target.name, event.target.value);
+      // const x =
+      // setPlayerList();
+      console.log(event.target.name);
+      if(event.target.value != "") {
+          playerNames.set(event.target.name, event.target.value);
+      }
+
+  }
+
+    const Transition = React.forwardRef(function Transition(
+        props: TransitionProps & { children?: React.ReactElement<any, any> },
+        ref: React.Ref<unknown>,
+    ) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
+
+  function getErrorDialog(){
+      return (
+          <div>
+              <Dialog
+                  open={open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description"
+              >
+                  <DialogContent>
+                      <DialogContentText id="alert-dialog-slide-description">
+                          PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME.
+                          <br/>
+                          <br/>
+                          *IF YOU WANT TO HAVE FUN AND CHALLENGE YOURSELF, PLEASE ENTER A NAME AS PLAYER TWO.
+                      </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                          OK
+                      </Button>
+                  </DialogActions>
+              </Dialog>
+          </div>
+      )
   }
 
   const history = useHistory();
@@ -66,15 +125,21 @@ const StartPage: React.FC = () => {
   const handleStartButtonClick = () => {
     let count = 0;
     playerNames.forEach((key, value) => {
+        console.log(key);
       if (value != "") {
         count++;
       }
     });
+    console.log("The count is " + count)
 
     if (count > 1) {
       history.push("/game");
+    }else{
+        setOpen(true);
+        console.log("SetOpen is true Luke")
     }
   };
+
   return (
     <div className={styles.addPlayerBackground}>
       <h1 className={styles.header}>You-Kno</h1>
@@ -149,6 +214,7 @@ const StartPage: React.FC = () => {
         InputProps={{ className: styles.input }}
         className={styles.playerNameField}
       />
+        {open && getErrorDialog()}
       <Button
         className={styles.startButton}
         onClick={() => {

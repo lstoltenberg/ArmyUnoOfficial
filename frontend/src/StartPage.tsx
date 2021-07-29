@@ -11,58 +11,102 @@ import {TransitionProps} from "@material-ui/core/transitions";
 import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  startButton: {
-    textAlign: "center",
-    backgroundColor: "#005EA2",
-    width: "490px",
-    height: "112px",
-    borderRadius: "10px",
-    fontWeight: "bold",
-    fontSize: "40px",
-    lineHeight: "47px",
-    display: "flex",
-    alignItems: "center",
-    color: "#F0F0F0",
-    marginTop: "24px", //40-16
-    '&:hover':{
-        backgroundColor: "#1A4480"
+    startButton: {
+        textAlign: "center",
+        backgroundColor: "#005EA2",
+        width: "490px",
+        height: "112px",
+        borderRadius: "10px",
+        fontWeight: "bold",
+        fontSize: "40px",
+        lineHeight: "47px",
+        display: "flex",
+        alignItems: "center",
+        color: "#F0F0F0",
+        marginTop: "24px", //40-16
+        '&:hover':{
+            backgroundColor: "#1A4480"
+        },
     },
-  },
 
-  input: {
-    width: "237px",
-    height: "24px",
-  },
+    input: {
+        width: "237px",
+        height: "24px",
+    },
 
-  playerNameField: {
-    background: "#E6E6E6",
-    marginBottom: "16px",
-    border: "1px solid #000000",
-  },
+    playerNameField: {
+        background: "#E6E6E6",
+        marginBottom: "16px",
+        border: "1px solid #000000",
+    },
 
-  addPlayerBackground: {
-    backgroundColor: "#DCDEE0",
-    width: "934px",
-    height: "720px",
-    margin: "28px auto 0px auto",
+    addPlayerBackground: {
+        backgroundColor: "#DCDEE0",
+        width: "934px",
+        height: "720px",
+        margin: "28px auto 0px auto",
 
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "8px",
-  },
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "8px",
+    },
 
-  header: {
-    marginTop: "8px",
-    marginBottom: "0px",
-  },
+    header: {
+        marginTop: "8px",
+        marginBottom: "0px",
+    },
+
+    errorDialogMainText: {
+        fontSize: "22px",
+        textAlign: "center",
+        color: "black",
+        paddingTop: "20px",
+        width: "375px",
+        paddingLeft: "80px"
+    },
+    errorDialogSecondaryText: {
+        fontSize: "16px",
+        textAlign: "center",
+        alignContent: "center",
+        fontWeight: "bold",
+        color: "black",
+        width: "360px",
+        padding: "15px 0px 0px 80px",
+    },
+
+    errorDialogBox:{
+        width: "522px",
+        height: "337px",
+    },
+
+    errorDialogContent:{
+        width: "360px",
+        height: "144px",
+    },
+
+    okErrorDialogButton:{
+        width: "315px",
+        height: "62px",
+        background: "#005EA2",
+        borderRadius: "10px",
+        textAlign: "center",
+        backgroundColor: "#005EA2",
+        '&:hover':{
+            backgroundColor: "#1A4480"
+        },
+        color: "#F0F0F0",
+        fontSize: "32px",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "40px 103.5px 48px 103.5px",
+    },
 }));
 
 const StartPage: React.FC = () => {
   const styles = useStyles();
-  const playerNames: Map<String, String> = new Map<String, String>();
-  const [playerList, setPlayerList] = React.useState([] as string[]);
+  const [playerList, setPlayerList] = React.useState(new Map<String, String>());
   const [open, setOpen] = React.useState(false);
   //const [playerNames, setPlayerNameValue] = React.useState(new Map<String, String>());
 
@@ -79,7 +123,7 @@ const StartPage: React.FC = () => {
       // setPlayerList();
       console.log(event.target.name);
       if(event.target.value != "") {
-          playerNames.set(event.target.name, event.target.value);
+          setPlayerList(playerList.set(event.target.name, event.target.value));
       }
 
   }
@@ -97,24 +141,17 @@ const StartPage: React.FC = () => {
               <Dialog
                   open={open}
                   TransitionComponent={Transition}
-                  keepMounted
                   onClose={handleClose}
-                  aria-labelledby="alert-dialog-slide-title"
-                  aria-describedby="alert-dialog-slide-description"
               >
-                  <DialogContent>
-                      <DialogContentText id="alert-dialog-slide-description">
-                          PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME.
-                          <br/>
-                          <br/>
+                  <DialogContent className={styles.errorDialogBox}>
+                      <DialogContentText className={styles.errorDialogMainText}>
+                         PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME.
+                      </DialogContentText>
+                      <DialogContentText className={styles.errorDialogSecondaryText}>
                           *IF YOU WANT TO HAVE FUN AND CHALLENGE YOURSELF, PLEASE ENTER A NAME AS PLAYER TWO.
                       </DialogContentText>
+                      <Button onClick={handleClose} className={styles.okErrorDialogButton}> OK </Button>
                   </DialogContent>
-                  <DialogActions>
-                      <Button onClick={handleClose} color="primary">
-                          OK
-                      </Button>
-                  </DialogActions>
               </Dialog>
           </div>
       )
@@ -124,7 +161,7 @@ const StartPage: React.FC = () => {
 
   const handleStartButtonClick = () => {
     let count = 0;
-    playerNames.forEach((key, value) => {
+    playerList.forEach((key, value) => {
         console.log(key);
       if (value != "") {
         count++;

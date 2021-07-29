@@ -43,5 +43,6 @@ test("renders a dialog box when not enough player have been entered when the sta
   const startGameButton = screen.getByText(/Start Game/i);
   startGameButton.click();
 
-  const dialogBox = screen.getByText(/PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME/i)
+  const dialogBox = screen.getByText(/PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME/i);
+  expect(dialogBox).toBeVisible();
 })

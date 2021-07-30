@@ -1,9 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
 import userEvent from '@testing-library/user-event'
 import StartPage from "./StartPage";
-import { Route, Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
 
@@ -45,4 +44,16 @@ test("renders a dialog box when not enough player have been entered when the sta
 
   const dialogBox = screen.getByText(/PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME/i);
   expect(dialogBox).toBeVisible();
+});
+
+test("closes error dialog box when ok button is clicked", () => {
+  render(<StartPage/>);
+
+  const startGameButton = screen.getByText(/Start Game/i);
+  startGameButton.click();
+
+  const dialogBoxButton = screen.getByText(/OK/i);
+  expect(dialogBoxButton).toBeVisible();
+  dialogBoxButton.click();
+  expect(dialogBoxButton).not.toBeVisible();
 })

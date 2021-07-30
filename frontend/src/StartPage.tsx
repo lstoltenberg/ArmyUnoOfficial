@@ -1,12 +1,9 @@
 import React from "react";
-import {Button, Link, makeStyles, TextField, Theme} from "@material-ui/core";
-import { inspect } from "util";
-import { Redirect, useHistory } from "react-router-dom";
-import StartPageErrorDialog from "./StartPageErrorDialog";
+import {Button, makeStyles, TextField, Theme} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
 import {TransitionProps} from "@material-ui/core/transitions";
 import Slide from "@material-ui/core/Slide";
 
@@ -23,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         alignItems: "center",
         color: "#F0F0F0",
-        marginTop: "24px", //40-16
+        marginTop: "24px",
         '&:hover':{
             backgroundColor: "#1A4480"
         },
@@ -58,14 +55,24 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: "0px",
     },
 
+    errorDialogBox:{
+        width: "522px",
+        height: "337px"
+    },
+
+    errorDialogContent:{
+        width: "360px",
+        height: "144px",
+    },
+
     errorDialogMainText: {
         fontSize: "22px",
         textAlign: "center",
         color: "black",
-        paddingTop: "20px",
         width: "375px",
-        paddingLeft: "80px"
+        margin: "20px 0px 0px 80px",
     },
+
     errorDialogSecondaryText: {
         fontSize: "16px",
         textAlign: "center",
@@ -74,16 +81,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: "black",
         width: "360px",
         padding: "15px 0px 0px 80px",
-    },
-
-    errorDialogBox:{
-        width: "522px",
-        height: "337px",
-    },
-
-    errorDialogContent:{
-        width: "360px",
-        height: "144px",
     },
 
     okErrorDialogButton:{
@@ -108,24 +105,15 @@ const StartPage: React.FC = () => {
   const styles = useStyles();
   const [playerList, setPlayerList] = React.useState(new Map<String, String>());
   const [open, setOpen] = React.useState(false);
-  //const [playerNames, setPlayerNameValue] = React.useState(new Map<String, String>());
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
     };
 
   function handlePlayerNameInput(event: any) {
-      // const x =
-      // setPlayerList();
-      console.log(event.target.name);
-      if(event.target.value != "") {
+     if(event.target.value != "") {
           setPlayerList(playerList.set(event.target.name, event.target.value));
       }
-
   }
 
     const Transition = React.forwardRef(function Transition(
@@ -141,8 +129,7 @@ const StartPage: React.FC = () => {
               <Dialog
                   open={open}
                   TransitionComponent={Transition}
-                  onClose={handleClose}
-              >
+                  onClose={handleClose}>
                   <DialogContent className={styles.errorDialogBox}>
                       <DialogContentText className={styles.errorDialogMainText}>
                          PLEASE HAVE A MINIMUM OF TWO PLAYERS TO START A GAME.
@@ -162,18 +149,15 @@ const StartPage: React.FC = () => {
   const handleStartButtonClick = () => {
     let count = 0;
     playerList.forEach((key, value) => {
-        console.log(key);
       if (value != "") {
         count++;
       }
     });
-    console.log("The count is " + count)
 
     if (count > 1) {
       history.push("/game");
     }else{
         setOpen(true);
-        console.log("SetOpen is true Luke")
     }
   };
 
@@ -256,10 +240,7 @@ const StartPage: React.FC = () => {
         className={styles.startButton}
         onClick={() => {
           handleStartButtonClick();
-        }}
-      >
-        Start Game
-      </Button>
+        }}>Start Game</Button>
     </div>
   );
 };
